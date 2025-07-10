@@ -19,9 +19,6 @@ dependencies {
     
     // TestNG - for test execution
     testImplementation("org.testng:testng:7.7.1")
-    
-    // Selenium - for web element interactions
-    implementation("org.seleniumhq.selenium:selenium-java:4.15.0")
 }
 
 tasks.test {
