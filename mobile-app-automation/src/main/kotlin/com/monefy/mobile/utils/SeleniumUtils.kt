@@ -71,4 +71,46 @@ class SeleniumUtils(private val driver: RemoteWebDriver) {
             throw RuntimeException("$message - Element $elementId is not visible")
         }
     }
+    
+    /**
+     * Wait for an element with specific text to be present and clickable, then tap it
+     */
+    fun waitAndClickByText(elementText: String, timeoutMs: Long = 5000) {
+        val startTime = System.currentTimeMillis()
+        while (System.currentTimeMillis() - startTime < timeoutMs) {
+            try {
+                val element = driver.findElement(By.xpath("//*[@text='$elementText']"))
+                if (element.isDisplayed && element.isEnabled) {
+                    element.click()
+                    println("Clicked element with text: '$elementText'")
+                    return
+                }
+            } catch (e: Exception) {
+                // Element not found or not clickable yet, continue waiting
+            }
+            Thread.sleep(100)
+        }
+        throw RuntimeException("Element with text '$elementText' not clickable after $timeoutMs ms")
+    }
+    
+    /**
+     * Wait for an element with specific text to be present and clickable, then tap it (case-insensitive)
+     */
+    fun waitAndClickByTextContains(elementText: String, timeoutMs: Long = 5000) {
+        val startTime = System.currentTimeMillis()
+        while (System.currentTimeMillis() - startTime < timeoutMs) {
+            try {
+                val element = driver.findElement(By.xpath("//*[contains(translate(@text,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'${elementText.lowercase()}')]"))
+                if (element.isDisplayed && element.isEnabled) {
+                    element.click()
+                    println("Clicked element containing text: '$elementText'")
+                    return
+                }
+            } catch (e: Exception) {
+                // Element not found or not clickable yet, continue waiting
+            }
+            Thread.sleep(100)
+        }
+        throw RuntimeException("Element containing text '$elementText' not clickable after $timeoutMs ms")
+    }
 } 
