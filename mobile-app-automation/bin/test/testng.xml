@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Monefy mobile app test suite">
+    
+    <test name="New User Onboarding">
+        <classes>
+            <class name="com.monefy.mobile.tests.NewUserOnboarding"/>
+        </classes>
+    </test>
+    
+</suite> 
