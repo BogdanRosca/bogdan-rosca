@@ -17,7 +17,7 @@ class AppiumConfig {
             capabilities.setCapability("app", "src/main/kotlin/com/monefy/mobile/apk/com.monefy.app.lite_1.18.0.apk")
             capabilities.setCapability("appPackage", "com.monefy.app.lite")
             capabilities.setCapability("appActivity", "com.monefy.activities.main.MainActivity_")
-            capabilities.setCapability("noReset", true)
+            capabilities.setCapability("noReset", false)
             capabilities.setCapability("autoGrantPermissions", true)
             return capabilities
         }
