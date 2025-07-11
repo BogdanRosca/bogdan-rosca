@@ -1,5 +1,6 @@
 package com.monefy.mobile.tests
 
+import com.monefy.mobile.pages.AddIncomePage
 import com.monefy.mobile.base.BaseTest
 import com.monefy.mobile.pages.HomePage
 import com.monefy.mobile.pages.OnboardingPage
@@ -9,6 +10,7 @@ import org.testng.annotations.Test
 class Transactions : BaseTest() {
     @Test
     fun testAddIncome() {
+        val addIncomePage = AddIncomePage(driver)
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
         val upgradePage = UpgradePage(driver)
@@ -21,8 +23,11 @@ class Transactions : BaseTest() {
 
         homePage.waitForPageToLoad()
         homePage.checkBallance("$0.00")
+        homePage.tapAddIncome()
 
-        homePage.addIncome(4321)
-        homePage.checkBallance("$4,321.00")
+        addIncomePage.waitForPageToLoad()
+        addIncomePage.fillIncomeDetails(4321.33)
+
+        homePage.checkBallance("$4,321.33")
     }
 }
