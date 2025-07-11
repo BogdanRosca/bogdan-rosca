@@ -3,7 +3,6 @@ package com.monefy.mobile.utils
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.remote.RemoteWebDriver
-import org.testng.Assert
 
 class SeleniumUtils(private val driver: RemoteWebDriver) {
     /**
@@ -68,6 +67,8 @@ class SeleniumUtils(private val driver: RemoteWebDriver) {
      */
     fun assertVisibleById(elementId: String, message: String = "") {
         val isVisible = isVisibleById(elementId)
-        Assert.assertTrue(isVisible, message)
+        if (!isVisible) {
+            throw RuntimeException("$message - Element $elementId is not visible")
+        }
     }
 } 
