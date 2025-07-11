@@ -22,7 +22,7 @@ class Transactions : BaseTest() {
         homePage.waitForPageToLoad()
         homePage.checkBallance("$0.00")
 
-        homePage.addIncome(100)
-        homePage.checkBallance("$100.00")
+        homePage.addIncome(4321)
+        homePage.checkBallance("$4,321.00")
     }
 }
