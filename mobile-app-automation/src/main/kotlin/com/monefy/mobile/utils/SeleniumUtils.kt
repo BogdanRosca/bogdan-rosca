@@ -113,4 +113,26 @@ class SeleniumUtils(private val driver: RemoteWebDriver) {
         }
         throw RuntimeException("Element containing text '$elementText' not clickable after $timeoutMs ms")
     }
+    
+    /**
+     * Wait for an element to be present and typeable, then type text into it
+     */
+    fun waitAndTypeById(elementId: String, text: String, timeoutMs: Long = 5000) {
+        val startTime = System.currentTimeMillis()
+        while (System.currentTimeMillis() - startTime < timeoutMs) {
+            try {
+                val element = driver.findElement(By.id(elementId))
+                if (element.isDisplayed && element.isEnabled) {
+                    element.clear()
+                    element.sendKeys(text)
+                    println("Typed text '$text' into element with ID: $elementId")
+                    return
+                }
+            } catch (e: Exception) {
+                // Element not found or not typeable yet, continue waiting
+            }
+            Thread.sleep(100)
+        }
+        throw RuntimeException("Element $elementId not typeable after $timeoutMs ms")
+    }
 } 

@@ -14,6 +14,7 @@ class Transactions : BaseTest() {
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
         val upgradePage = UpgradePage(driver)
+        val salaryAmount = 6543.21
 
         onboardingPage.waitForPageToLoad()
         onboardingPage.completeOnboarding()
@@ -26,8 +27,9 @@ class Transactions : BaseTest() {
         homePage.tapAddIncome()
 
         addIncomePage.waitForPageToLoad()
-        addIncomePage.fillIncomeDetails(4321.33)
+        addIncomePage.fillIncomeDetails(salaryAmount, "card", "Salary", "Salary june 2025")
 
-        homePage.checkBallance("$4,321.33")
+        homePage.waitForPageToLoad()
+        homePage.checkBallance("$6,543.21")
     }
 }
