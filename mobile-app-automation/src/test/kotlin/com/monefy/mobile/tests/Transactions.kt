@@ -1,5 +1,6 @@
 package com.monefy.mobile.tests
 
+import com.monefy.mobile.pages.AddExpensePage
 import com.monefy.mobile.pages.AddIncomePage
 import com.monefy.mobile.base.BaseTest
 import com.monefy.mobile.pages.HomePage
@@ -27,7 +28,7 @@ class Transactions : BaseTest() {
         homePage.tapAddIncome()
 
         addIncomePage.waitForPageToLoad()
-        addIncomePage.fillIncomeDetails(salaryAmount, "card", "Salary", "Salary june 2025")
+        addIncomePage.fillIncomeDetails(salaryAmount, "card", "Salary", "Salary july 2025")
 
         homePage.waitForPageToLoad()
         homePage.checkBallance(salaryAmount)
@@ -59,6 +60,7 @@ class Transactions : BaseTest() {
         homePage.checkBallance(depositAmount)
     }
 
+    @Test
     fun testAddSavings() {
         val addIncomePage = AddIncomePage(driver)
         val homePage = HomePage(driver)
@@ -83,6 +85,54 @@ class Transactions : BaseTest() {
         homePage.checkBallance(savingsAmount)
     }
 
-    
+    @Test
+    fun testAddExpenseByMainButton() {
+        val addExpensePage = AddExpensePage(driver)
+        val homePage = HomePage(driver)
+        val onboardingPage = OnboardingPage(driver)
+        val upgradePage = UpgradePage(driver)
+        val expenseAmount = 1020.00
+
+        onboardingPage.waitForPageToLoad()
+        onboardingPage.completeOnboarding()
+
+        upgradePage.waitForPageToLoad()
+        upgradePage.closeUpgradeScreen()
+
+        homePage.waitForPageToLoad()
+        homePage.checkBallance(0.00)
+        homePage.tapAddExpense()
+
+        addExpensePage.waitForPageToLoad()
+        addExpensePage.fillExpenseDetails(expenseAmount, "card", "Bills", "Rent july 2025")
+
+        homePage.waitForPageToLoad()
+        homePage.checkBallance(-expenseAmount)
+    }
+
+    @Test
+    fun testAddExpenseByChategoryButton() {
+        val addExpensePage = AddExpensePage(driver)
+        val homePage = HomePage(driver)
+        val onboardingPage = OnboardingPage(driver)
+        val upgradePage = UpgradePage(driver)
+        val expenseAmount = 43.75
+
+        onboardingPage.waitForPageToLoad()
+        onboardingPage.completeOnboarding()
+
+        upgradePage.waitForPageToLoad()
+        upgradePage.closeUpgradeScreen()
+
+        homePage.waitForPageToLoad()
+        homePage.checkBallance(0.00)
+        homePage.tapFoodCategoryButton()
+
+        addExpensePage.waitForPageToLoad()
+        addExpensePage.fillExpenseDetails(expenseAmount, "cash", "Food", "Monday groceries")
+
+        homePage.waitForPageToLoad()
+        homePage.checkBallance(-expenseAmount)
+    }
 
 }
