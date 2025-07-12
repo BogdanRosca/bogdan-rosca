@@ -4,6 +4,8 @@ import org.openqa.selenium.remote.RemoteWebDriver
 
 class AddExpensePage(driver: RemoteWebDriver) : AddTransactionPage(driver) {
 
+    private val addExpenseButtonId = "com.monefy.app.lite:id/keyboard_action_button"
+
     override fun waitForPageToLoad() {
         super.waitForPageToLoad()
     }
@@ -26,6 +28,11 @@ class AddExpensePage(driver: RemoteWebDriver) : AddTransactionPage(driver) {
             throw RuntimeException("Invalid expenseType: '$expenseType'. Valid types are: ${validExpenseTypes.joinToString(", ")}")
         }
         selenium.waitAndClickByTextContains(expenseType)
+    }
+
+    fun checkSelectedCategory(category: String) {
+        val expectedText = "ADD '" + category.uppercase() + "'"    
+        selenium.waitForTextById(addExpenseButtonId, expectedText)
     }
 
 } 

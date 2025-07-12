@@ -129,6 +129,7 @@ class Transactions : BaseTest() {
         homePage.tapFoodCategoryButton()
 
         addExpensePage.waitForPageToLoad()
+        addExpensePage.checkSelectedCategory("Food")
         addExpensePage.fillExpenseDetails(expenseAmount, "cash", "Food", "Monday groceries")
 
         homePage.waitForPageToLoad()
