@@ -6,7 +6,7 @@ import org.openqa.selenium.remote.RemoteWebDriver
 
 class SeleniumUtils(private val driver: RemoteWebDriver) {
     /**
-     * Wait for an element to be present and clickable
+     * Wait for an element with id to be present and clickable or fail due to timeout
      */
     fun waitAndClickById(elementId: String, timeoutMs: Long = 5000) {
         val startTime = System.currentTimeMillis()
@@ -26,10 +26,72 @@ class SeleniumUtils(private val driver: RemoteWebDriver) {
         throw RuntimeException("Element $elementId not clickable after $timeoutMs ms")
     }
     
+     /**
+     * Wait for an element with specific text to be present and clickable, then click it or fail due to timeout
+     */
+    fun waitAndClickByTextContains(elementText: String, timeoutMs: Long = 5000) {
+        val startTime = System.currentTimeMillis()
+        while (System.currentTimeMillis() - startTime < timeoutMs) {
+            try {
+                val element = driver.findElement(By.xpath("//*[contains(translate(@text,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'${elementText.lowercase()}')]"))
+                if (element.isDisplayed && element.isEnabled) {
+                    element.click()
+                    println("Clicked element containing text: '$elementText'")
+                    return
+                }
+            } catch (e: Exception) {
+                // Element not found or not clickable yet, continue waiting
+            }
+            Thread.sleep(100)
+        }
+        throw RuntimeException("Element containing text '$elementText' not clickable after $timeoutMs ms")
+    }
+    
+    /**
+     * Wait for an element to be present by xpath and clickable or fail due to timeout
+     */
+    fun waitAndClickByXpath(elementXpath: String, timeoutMs: Long = 5000) {
+        val startTime = System.currentTimeMillis()
+        while (System.currentTimeMillis() - startTime < timeoutMs) {
+            try {
+                val element = driver.findElement(By.xpath(elementXpath))
+                if (element.isDisplayed && element.isEnabled) {
+                    element.click()
+                    println("Clicked element with Xpath: $elementXpath")
+                    return
+                }
+            } catch (e: Exception) {
+                // Element not found or not clickable yet, continue waiting
+            }
+            Thread.sleep(100)
+        }
+        throw RuntimeException("Element $elementXpath not clickable after $timeoutMs ms")
+    }
+
+    /**
+     * Wait for an element to be present and clickable or fail due to timeout
+     */
+    fun waitAndReturnElementsById(elementId: String, timeoutMs: Long = 5000): List<WebElement> {
+        val startTime = System.currentTimeMillis()
+        while (System.currentTimeMillis() - startTime < timeoutMs) {
+            try {
+                val elements = driver.findElements(By.id(elementId))
+                if (elements.size > 0) {
+                    println("Found ${elements.size} elements with ID: $elementId")
+                    return elements
+                }
+            } catch (e: Exception) {
+                // Element not found or not clickable yet, continue waiting
+            }
+            Thread.sleep(100)
+        }
+        throw RuntimeException("Element $elementId not clickable after $timeoutMs ms")
+    }
+
     /**
      * Wait for an element to have specific text, or fail due to timeout
      */
-    fun waitForTextById(elementId: String, expectedText: String, message: String = "", timeoutMs: Long = 10000) {
+    fun waitForTextById(elementId: String, expectedText: String, message: String = "", timeoutMs: Long = 5000) {
         val startTime = System.currentTimeMillis()
         while (System.currentTimeMillis() - startTime < timeoutMs) {
             try {
@@ -63,57 +125,26 @@ class SeleniumUtils(private val driver: RemoteWebDriver) {
     }
     
     /**
-     * Assert that an element is visible by ID
+     * Wait for an element to be visible by ID or fail due to timeout
      */
-    fun assertVisibleById(elementId: String, message: String = "") {
-        val isVisible = isVisibleById(elementId)
-        if (!isVisible) {
-            throw RuntimeException("$message - Element $elementId is not visible")
-        }
-    }
-    
-    /**
-     * Wait for an element with specific text to be present and clickable, then tap it
-     */
-    fun waitAndClickByText(elementText: String, timeoutMs: Long = 5000) {
+    fun waitForElementVisibilityById(elementId: String, message: String = "", timeoutMs: Long = 5000) {
         val startTime = System.currentTimeMillis()
         while (System.currentTimeMillis() - startTime < timeoutMs) {
             try {
-                val element = driver.findElement(By.xpath("//*[@text='$elementText']"))
-                if (element.isDisplayed && element.isEnabled) {
-                    element.click()
-                    println("Clicked element with text: '$elementText'")
+                val isVisible = isVisibleById(elementId)
+                if (isVisible) {
+                    println("Element $elementId is visible")
                     return
                 }
             } catch (e: Exception) {
-                // Element not found or not clickable yet, continue waiting
+                // Element not found yet, continue waiting
             }
             Thread.sleep(100)
         }
-        throw RuntimeException("Element with text '$elementText' not clickable after $timeoutMs ms")
+        throw RuntimeException("$message - Element $elementId was not visible after $timeoutMs ms.")
     }
     
-    /**
-     * Wait for an element with specific text to be present and clickable, then tap it (case-insensitive)
-     */
-    fun waitAndClickByTextContains(elementText: String, timeoutMs: Long = 5000) {
-        val startTime = System.currentTimeMillis()
-        while (System.currentTimeMillis() - startTime < timeoutMs) {
-            try {
-                val element = driver.findElement(By.xpath("//*[contains(translate(@text,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'${elementText.lowercase()}')]"))
-                if (element.isDisplayed && element.isEnabled) {
-                    element.click()
-                    println("Clicked element containing text: '$elementText'")
-                    return
-                }
-            } catch (e: Exception) {
-                // Element not found or not clickable yet, continue waiting
-            }
-            Thread.sleep(100)
-        }
-        throw RuntimeException("Element containing text '$elementText' not clickable after $timeoutMs ms")
-    }
-    
+   
     /**
      * Wait for an element to be present and typeable, then type text into it
      */
@@ -134,14 +165,6 @@ class SeleniumUtils(private val driver: RemoteWebDriver) {
             Thread.sleep(100)
         }
         throw RuntimeException("Element $elementId not typeable after $timeoutMs ms")
-    }
-    
-    /**
-     * Tap the first element of specified class within a container by ID
-     */
-    fun tapFirstElementOfClassInContainerById(containerId: String, className: String) {
-        val element = driver.findElement(By.xpath("//*[@resource-id='$containerId']//$className[1]"))
-        element.click()
     }
     
     /**

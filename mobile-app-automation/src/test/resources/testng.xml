@@ -5,7 +5,16 @@
     <test name="New User Onboarding">
         <classes>
             <class name="com.monefy.mobile.tests.NewUserOnboarding"/>
+        </classes>
+    </test>
+    <test name="Transactions">
+        <classes>
             <class name="com.monefy.mobile.tests.Transactions"/>
+        </classes>
+    </test>
+    <test name="Transactions history">
+        <classes>
+            <class name="com.monefy.mobile.tests.TransactionsHistory"/>
         </classes>
     </test>
     

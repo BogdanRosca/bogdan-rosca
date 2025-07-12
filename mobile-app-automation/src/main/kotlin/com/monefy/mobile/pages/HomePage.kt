@@ -1,9 +1,11 @@
 package com.monefy.mobile.pages
 
 import org.openqa.selenium.remote.RemoteWebDriver
+import com.monefy.mobile.utils.StringUtils
 
 class HomePage(driver: RemoteWebDriver) : BasePage(driver) {
     
+    private val stringUtils = StringUtils()
     private val addExpenseButtonId = "com.monefy.app.lite:id/expense_button_title"
     private val addIncomeButtonId = "com.monefy.app.lite:id/income_button"
     private val balanceTextId = "com.monefy.app.lite:id/balance_amount"
@@ -16,17 +18,13 @@ class HomePage(driver: RemoteWebDriver) : BasePage(driver) {
     private val topbBarId = "com.monefy.app.lite:id/toolbar_layout"
     
     override fun waitForPageToLoad() {
-        selenium.assertVisibleById(topbBarId, "Home screen is not visible")
+        selenium.waitForElementVisibilityById(topbBarId, "Home screen is not visible", 10000)
     }
 
     fun checkBallance(balance: Double) {
-        selenium.assertVisibleById(balanceTextId, "Balance is not visible")
-        val balanceString = if (balance < 0) {
-            String.format("-$%,.2f", -balance)
-        } else {
-            String.format("$%,.2f", balance)
-        }
-        selenium.waitForTextById(balanceTextId, balanceString, "Balance is not $balance")
+        selenium.waitForElementVisibilityById(balanceTextId, "Balance is not visible", 10000)
+        var balanceString = stringUtils.formatBalance(balance)
+        selenium.waitForTextById(balanceTextId, balanceString, "Balance value is wrong. Expected $balance, but got $balanceString")
     }
 
     fun tapAddIncome() {
@@ -38,12 +36,20 @@ class HomePage(driver: RemoteWebDriver) : BasePage(driver) {
     }
 
     fun tapFoodCategoryButton() {
-        selenium.tapFirstElementOfClassInContainerById(piechartId, foodButtonClass)
+        val elementXpath = "//*[@resource-id='$piechartId']//$foodButtonClass[1]"
+        selenium.waitAndClickByXpath(elementXpath)
+    }
+
+    fun openBalancePage() {
+        selenium.waitAndClickById(balanceTextId)
     }
 
     fun clearToastMessage() {
-        selenium.tapFirstElementOfClassInContainerById(piechartId, foodButtonClass)
+        tapFoodCategoryButton()
         selenium.goBack()
     }
 
+    fun closeSettingsScreen() {
+        selenium.goBack()   
+    }
 } 

@@ -32,7 +32,7 @@ class AddExpensePage(driver: RemoteWebDriver) : AddTransactionPage(driver) {
 
     fun checkSelectedCategory(category: String) {
         val expectedText = "ADD '" + category.uppercase() + "'"    
-        selenium.waitForTextById(addExpenseButtonId, expectedText)
+        selenium.waitForTextById(addExpenseButtonId, expectedText, "Category $category is not selected")
     }
 
 } 
