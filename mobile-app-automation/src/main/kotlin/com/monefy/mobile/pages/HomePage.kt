@@ -5,7 +5,6 @@ import com.monefy.mobile.utils.StringUtils
 
 class HomePage(driver: RemoteWebDriver) : BasePage(driver) {
     
-    private val stringUtils = StringUtils()
     private val addExpenseButtonId = "com.monefy.app.lite:id/expense_button_title"
     private val addIncomeButtonId = "com.monefy.app.lite:id/income_button"
     private val balanceTextId = "com.monefy.app.lite:id/balance_amount"
@@ -22,8 +21,7 @@ class HomePage(driver: RemoteWebDriver) : BasePage(driver) {
     }
 
     fun checkBallance(balance: Double) {
-        selenium.waitForElementVisibilityById(balanceTextId, "Balance is not visible")
-        var balanceString = stringUtils.formatBalance(balance)
+        var balanceString = StringUtils.formatBalance(balance)
         selenium.waitForTextById(balanceTextId, balanceString, "Balance value is wrong. Expected $balance, but got $balanceString")
     }
 

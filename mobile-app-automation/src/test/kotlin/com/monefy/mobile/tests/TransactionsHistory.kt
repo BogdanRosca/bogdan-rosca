@@ -4,6 +4,7 @@ import com.monefy.mobile.pages.AddExpensePage
 import com.monefy.mobile.pages.AddIncomePage
 import com.monefy.mobile.pages.BalancePage
 import com.monefy.mobile.base.BaseTest
+import com.monefy.mobile.utils.DateUtils
 import com.monefy.mobile.pages.HomePage
 import com.monefy.mobile.pages.OnboardingPage
 import com.monefy.mobile.pages.UpgradePage
@@ -23,6 +24,7 @@ class TransactionsHistory : BaseTest() {
         val depositAmount = 321.42
         val rentAmout = 1020.00
         val taxiAmount = 48.25
+        val date = DateUtils.getCurrentDateFormatted()
 
         onboardingPage.waitForPageToLoad()
         onboardingPage.completeOnboarding()
@@ -67,10 +69,10 @@ class TransactionsHistory : BaseTest() {
         homePage.openBalancePage() 
         
         balancePage.waitForPageToLoad()
-        balancePage.checkChategory(0, "Salary", salaryAmount)
-        balancePage.checkChategory(1, "Deposits", depositAmount)
-        balancePage.checkChategory(2, "Bills", rentAmout)
-        balancePage.checkChategory(3, "Taxi", taxiAmount)
+        balancePage.checkTransactionChategory(0, "Salary", salaryAmount, "Salary july 2025", date)
+        balancePage.checkTransactionChategory(1, "Deposits", depositAmount, "Sold bike", date)
+        balancePage.checkTransactionChategory(2, "Bills", rentAmout, "Rent july 2025", date)
+        balancePage.checkTransactionChategory(3, "Taxi", taxiAmount, "Taxi to airport", date) 
     }
     
 }
