@@ -14,7 +14,7 @@ abstract class AddTransactionPage(driver: RemoteWebDriver) : BasePage(driver) {
    
 
     override fun waitForPageToLoad() {
-        selenium.waitForElementVisibilityById(topbBarId, "Transaction screen is not visible", 10000)
+        selenium.waitForElementVisibilityById(topbBarId, "Transaction screen is not visible")
     }
 
     protected fun enterAmountByKeyboard(amount: Double) {

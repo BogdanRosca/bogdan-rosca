@@ -18,11 +18,11 @@ class HomePage(driver: RemoteWebDriver) : BasePage(driver) {
     private val topbBarId = "com.monefy.app.lite:id/toolbar_layout"
     
     override fun waitForPageToLoad() {
-        selenium.waitForElementVisibilityById(topbBarId, "Home screen is not visible", 10000)
+        selenium.waitForElementVisibilityById(topbBarId, "Home screen is not visible")
     }
 
     fun checkBallance(balance: Double) {
-        selenium.waitForElementVisibilityById(balanceTextId, "Balance is not visible", 10000)
+        selenium.waitForElementVisibilityById(balanceTextId, "Balance is not visible")
         var balanceString = stringUtils.formatBalance(balance)
         selenium.waitForTextById(balanceTextId, balanceString, "Balance value is wrong. Expected $balance, but got $balanceString")
     }

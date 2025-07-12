@@ -10,7 +10,7 @@ class BalancePage(driver: RemoteWebDriver) : BasePage(driver) {
     private val transactionsCategoryNameId = "com.monefy.app.lite:id/textViewCategoryName"
     private val transactionsCategoryTotalId = "com.monefy.app.lite:id/textViewWholeAmount"
     override fun waitForPageToLoad() {
-        selenium.waitForElementVisibilityById(transactionsHeaderId, "Balance screen is not visible", 10000)
+        selenium.waitForElementVisibilityById(transactionsHeaderId, "Balance screen is not visible")
     }
 
     fun checkChategory(index: Int, category: String, amount: Double) {
