@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.10"
     id("java")
+    id("io.qameta.allure") version "2.12.0"
 }
 
 group = "com.monefy"
@@ -19,12 +20,19 @@ dependencies {
     
     // TestNG - for test execution
     testImplementation("org.testng:testng:7.7.1")
+    
+    // Allure TestNG listener
+    testImplementation("io.qameta.allure:allure-testng:2.24.0")
 }
 
 tasks.test {
     useTestNG {
         suites("src/test/resources/testng.xml")
+        listeners.add("io.qameta.allure.testng.AllureTestNg")
     }
+    
+    // Configure Allure results directory
+    systemProperty("allure.results.directory", "$buildDir/allure-results")
 }
 
 java {
