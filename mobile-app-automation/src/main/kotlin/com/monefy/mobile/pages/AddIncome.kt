@@ -66,5 +66,6 @@ class AddIncomePage(driver: RemoteWebDriver) : BasePage(driver) {
             }
         }
     }   
+
 }
 

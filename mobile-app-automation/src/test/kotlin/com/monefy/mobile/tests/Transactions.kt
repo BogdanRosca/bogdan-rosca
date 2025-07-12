@@ -9,7 +9,7 @@ import org.testng.annotations.Test
 
 class Transactions : BaseTest() {
     @Test
-    fun testAddIncome() {
+    fun testAddSalary() {
         val addIncomePage = AddIncomePage(driver)
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
@@ -23,13 +23,66 @@ class Transactions : BaseTest() {
         upgradePage.closeUpgradeScreen()
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance("$0.00")
+        homePage.checkBallance(0.00)
         homePage.tapAddIncome()
 
         addIncomePage.waitForPageToLoad()
         addIncomePage.fillIncomeDetails(salaryAmount, "card", "Salary", "Salary june 2025")
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance("$6,543.21")
+        homePage.checkBallance(salaryAmount)
     }
+
+
+    @Test
+    fun testAddDeposit() {
+        val addIncomePage = AddIncomePage(driver)
+        val homePage = HomePage(driver)
+        val onboardingPage = OnboardingPage(driver)
+        val upgradePage = UpgradePage(driver)
+        val depositAmount = 320.00
+
+        onboardingPage.waitForPageToLoad()
+        onboardingPage.completeOnboarding()
+
+        upgradePage.waitForPageToLoad()
+        upgradePage.closeUpgradeScreen()
+
+        homePage.waitForPageToLoad()
+        homePage.checkBallance(0.00)
+        homePage.tapAddIncome()
+
+        addIncomePage.waitForPageToLoad()
+        addIncomePage.fillIncomeDetails(depositAmount, "cash", "Deposits", "Sold bike")
+
+        homePage.waitForPageToLoad()
+        homePage.checkBallance(depositAmount)
+    }
+
+    fun testAddSavings() {
+        val addIncomePage = AddIncomePage(driver)
+        val homePage = HomePage(driver)
+        val onboardingPage = OnboardingPage(driver)
+        val upgradePage = UpgradePage(driver)
+        val savingsAmount = 1020.00
+
+        onboardingPage.waitForPageToLoad()
+        onboardingPage.completeOnboarding()
+
+        upgradePage.waitForPageToLoad()
+        upgradePage.closeUpgradeScreen()
+
+        homePage.waitForPageToLoad()
+        homePage.checkBallance(0.00)
+        homePage.tapAddIncome()
+
+        addIncomePage.waitForPageToLoad()
+        addIncomePage.fillIncomeDetails(savingsAmount, "cash", "Savings")
+
+        homePage.waitForPageToLoad()
+        homePage.checkBallance(savingsAmount)
+    }
+
+    
+
 }

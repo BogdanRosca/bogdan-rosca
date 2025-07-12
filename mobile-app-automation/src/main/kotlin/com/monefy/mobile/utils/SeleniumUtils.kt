@@ -135,4 +135,20 @@ class SeleniumUtils(private val driver: RemoteWebDriver) {
         }
         throw RuntimeException("Element $elementId not typeable after $timeoutMs ms")
     }
+    
+    /**
+     * Tap the first element of specified class within a container by ID
+     */
+    fun tapFirstElementOfClassInContainerById(containerId: String, className: String) {
+        val element = driver.findElement(By.xpath("//*[@resource-id='$containerId']//$className[1]"))
+        element.click()
+    }
+    
+    /**
+     * Navigate back to the previous screen
+     */
+    fun goBack() {
+        driver.navigate().back()
+        println("Navigated back to previous screen")
+    }
 } 

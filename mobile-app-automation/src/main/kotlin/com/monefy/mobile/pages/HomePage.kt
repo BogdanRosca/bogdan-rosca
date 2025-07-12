@@ -16,13 +16,19 @@ class HomePage(driver: RemoteWebDriver) : BasePage(driver) {
         selenium.assertVisibleById(topbBarId, "Home screen is not visible")
     }
 
-    fun checkBallance(balance: String) {
+    fun checkBallance(balance: Double) {
         selenium.assertVisibleById(balanceTextId, "Balance is not visible")
-        selenium.waitForTextById(balanceTextId, balance, "Balance is not $balance")
+        val balanceString = String.format("$%,.2f", balance)
+        selenium.waitForTextById(balanceTextId, balanceString, "Balance is not $balance")
     }
 
     fun tapAddIncome() {
         selenium.waitAndClickById(addIncomeButtonId)
+    }
+
+    fun clearToastMessage() {
+        selenium.tapFirstElementOfClassInContainerById("com.monefy.app.lite:id/piegraph", "android.widget.ImageView")
+        selenium.goBack()
     }
 
 } 
