@@ -2,6 +2,7 @@ package com.monefy.mobile.pages
 
 import org.openqa.selenium.remote.RemoteWebDriver
 import com.monefy.mobile.utils.StringUtils
+import com.monefy.mobile.utils.Transaction
 
 class BalancePage(driver: RemoteWebDriver) : BasePage(driver) {
 
@@ -17,28 +18,28 @@ class BalancePage(driver: RemoteWebDriver) : BasePage(driver) {
         selenium.waitForElementVisibilityById(transactionsHeaderId, "Balance screen is not visible")
     }
 
-    fun checkTransactionChategory(index: Int, category: String, amount: Double, note: String, date: String) {
-        checkChategyName(index, category)
-        checkChategyTotalAmount(index, category, amount)
-        checkTransactionChategoryDetails(index, category, amount, note, date)
+    fun checkTransactionChategory(index: Int, transaction: Transaction) {
+        checkChategyName(index, transaction)
+        checkChategyTotalAmount(index, transaction)
+        checkTransactionChategoryDetails(index, transaction)
     }
 
-    fun checkTransactionChategoryDetails(index: Int, category: String, amount: Double, note: String, date: String) {
+    fun checkTransactionChategoryDetails(index: Int, transaction: Transaction) {
         expandTransactionChategory(index)
-        checkTransactionAmount(index, category, amount)
-        checkTransactionNote(index, category, note)
-        checkTransactionDate(index, category, date)
+        checkTransactionAmount(index, transaction)
+        checkTransactionNote(index, transaction)
+        checkTransactionDate(index, transaction)
     }
 
-    fun checkChategyName(index: Int, category: String) {
+    fun checkChategyName(index: Int, transaction: Transaction) {
         var chategories = selenium.waitAndReturnElementsById(transactionsCategoryNameId)
-        assert(chategories[index].text.contains(category)) { "Transaction category $category not found" }
+        assert(chategories[index].text.contains(transaction.category)) { "Transaction category ${transaction.category} not found" }
     }
 
-    fun checkChategyTotalAmount(index: Int, category: String, amount: Double) {
+    fun checkChategyTotalAmount(index: Int, transaction: Transaction) {
         var totals = selenium.waitAndReturnElementsById(transactionsCategoryTotalId) 
-        var chategoryTotals = StringUtils.formatBalance(amount)
-        assert(totals[index].text.contains(chategoryTotals)) { "Transaction category $category amount is wrong. Expected $amount, but got ${totals[index].text}" }
+        var chategoryTotals = StringUtils.formatBalance(transaction.amount)
+        assert(totals[index].text.contains(chategoryTotals)) { "Transaction category ${transaction.category} amount is wrong. Expected ${transaction.amount}, but got ${totals[index].text}" }
     }
 
     fun expandTransactionChategory(index: Int) {
@@ -46,20 +47,20 @@ class BalancePage(driver: RemoteWebDriver) : BasePage(driver) {
         transactionContainer[index].click()
     }
 
-    fun checkTransactionAmount(index: Int, category: String, amount: Double) {
-        var amountString = StringUtils.formatBalance(amount)
+    fun checkTransactionAmount(index: Int, transaction: Transaction) {
+        var amountString = StringUtils.formatBalance(transaction.amount)
         var amounts = selenium.waitAndReturnElementsById(transactionsAmountId) 
-        assert(amounts[index].text.contains(amountString)) { "Transaction category $category amount is wrong. Expected $amountString, but got ${amounts[index].text}" }
+        assert(amounts[index].text.contains(amountString)) { "Transaction category ${transaction.category} amount is wrong. Expected ${transaction.amount}, but got ${amounts[index].text}" }
     }
 
-    fun checkTransactionNote(index: Int, category: String, note: String) {
+    fun checkTransactionNote(index: Int, transaction: Transaction) {
         var notes = selenium.waitAndReturnElementsById(transactionsNoteId) 
-        assert(notes[index].text.contains(note)) { "Transaction category $category note is wrong. Expected $note, but got ${notes[index].text}" }
+        assert(notes[index].text.contains(transaction.note)) { "Transaction category ${transaction.category} note is wrong. Expected ${transaction.note}, but got ${notes[index].text}" }
     }
 
-    fun checkTransactionDate(index: Int, category: String, date: String) {
+    fun checkTransactionDate(index: Int, transaction: Transaction) {
         var dates = selenium.waitAndReturnElementsById(transactionsDateId) 
-        assert(dates[index].text.contains(date)) { "Transaction category $category date is wrong. Expected $date, but got ${dates[index].text}" }
+        assert(dates[index].text.contains(transaction.date)) { "Transaction category ${transaction.category} date is wrong. Expected ${transaction.date}, but got ${dates[index].text}" }
     }
 
 } 

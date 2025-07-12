@@ -5,6 +5,7 @@ import com.monefy.mobile.pages.AddIncomePage
 import com.monefy.mobile.pages.BalancePage
 import com.monefy.mobile.base.BaseTest
 import com.monefy.mobile.utils.DateUtils
+import com.monefy.mobile.utils.Transaction
 import com.monefy.mobile.pages.HomePage
 import com.monefy.mobile.pages.OnboardingPage
 import com.monefy.mobile.pages.UpgradePage
@@ -20,11 +21,10 @@ class TransactionsHistory : BaseTest() {
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
         val upgradePage = UpgradePage(driver)
-        val salaryAmount = 6543.21
-        val depositAmount = 321.42
-        val rentAmout = 1020.00
-        val taxiAmount = 48.25
-        val date = DateUtils.getCurrentDateFormatted()
+        val salary = Transaction(6543.21, "card", "Salary", "Salary july 2025")
+        val deposit = Transaction(321.42, "cash", "Deposits", "Sold bike")
+        val bills = Transaction(1020.00, "card", "Bills", "Rent july 2025")
+        val taxi = Transaction(48.25, "cash", "Taxi", "Taxi to airport")
 
         onboardingPage.waitForPageToLoad()
         onboardingPage.completeOnboarding()
@@ -37,42 +37,42 @@ class TransactionsHistory : BaseTest() {
         homePage.tapAddIncome()
 
         addIncomePage.waitForPageToLoad()
-        addIncomePage.fillIncomeDetails(salaryAmount, "card", "Salary", "Salary july 2025")
+        addIncomePage.fillIncomeDetails(salary)
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(salaryAmount)
+        homePage.checkBallance(salary.amount)
         homePage.clearToastMessage()
         homePage.tapAddIncome()
 
         addIncomePage.waitForPageToLoad()
-        addIncomePage.fillIncomeDetails(depositAmount, "cash", "Deposits", "Sold bike")
+        addIncomePage.fillIncomeDetails(deposit)
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(salaryAmount + depositAmount)
+        homePage.checkBallance(salary.amount + deposit.amount)
         homePage.clearToastMessage()
         homePage.closeSettingsScreen()
         homePage.tapAddExpense()
 
         addExpensePage.waitForPageToLoad()
-        addExpensePage.fillExpenseDetails(rentAmout, "card", "Bills", "Rent july 2025")
+        addExpensePage.fillExpenseDetails(bills)
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(salaryAmount + depositAmount - rentAmout)
+        homePage.checkBallance(salary.amount + deposit.amount - bills.amount)
         homePage.clearToastMessage()
         homePage.tapAddExpense()
 
         addExpensePage.waitForPageToLoad()
-        addExpensePage.fillExpenseDetails(taxiAmount, "cash", "Taxi", "Taxi to airport")
+        addExpensePage.fillExpenseDetails(taxi)
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(salaryAmount + depositAmount - rentAmout - taxiAmount)
+        homePage.checkBallance(salary.amount + deposit.amount - bills.amount - taxi.amount)
         homePage.openBalancePage() 
         
         balancePage.waitForPageToLoad()
-        balancePage.checkTransactionChategory(0, "Salary", salaryAmount, "Salary july 2025", date)
-        balancePage.checkTransactionChategory(1, "Deposits", depositAmount, "Sold bike", date)
-        balancePage.checkTransactionChategory(2, "Bills", rentAmout, "Rent july 2025", date)
-        balancePage.checkTransactionChategory(3, "Taxi", taxiAmount, "Taxi to airport", date) 
+        balancePage.checkTransactionChategory(0, salary)
+        balancePage.checkTransactionChategory(1, deposit)
+        balancePage.checkTransactionChategory(2, bills)
+        balancePage.checkTransactionChategory(3, taxi) 
     }
     
 }

@@ -7,6 +7,7 @@ import com.monefy.mobile.pages.HomePage
 import com.monefy.mobile.pages.OnboardingPage
 import com.monefy.mobile.pages.UpgradePage
 import org.testng.annotations.Test
+import com.monefy.mobile.utils.Transaction
 
 class Transactions : BaseTest() {
     @Test
@@ -15,7 +16,7 @@ class Transactions : BaseTest() {
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
         val upgradePage = UpgradePage(driver)
-        val salaryAmount = 6543.21
+        val salary = Transaction(6543.21, "card", "Salary", "Salary july 2025")
 
         onboardingPage.waitForPageToLoad()
         onboardingPage.completeOnboarding()
@@ -28,10 +29,10 @@ class Transactions : BaseTest() {
         homePage.tapAddIncome()
 
         addIncomePage.waitForPageToLoad()
-        addIncomePage.fillIncomeDetails(salaryAmount, "card", "Salary", "Salary july 2025")
+        addIncomePage.fillIncomeDetails(salary)
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(salaryAmount)
+        homePage.checkBallance(salary.amount)
     }
 
 
@@ -41,7 +42,7 @@ class Transactions : BaseTest() {
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
         val upgradePage = UpgradePage(driver)
-        val depositAmount = 320.00
+        val deposit = Transaction(320.00, "cash", "Deposits", "Sold bike")
 
         onboardingPage.waitForPageToLoad()
         onboardingPage.completeOnboarding()
@@ -54,10 +55,10 @@ class Transactions : BaseTest() {
         homePage.tapAddIncome()
 
         addIncomePage.waitForPageToLoad()
-        addIncomePage.fillIncomeDetails(depositAmount, "cash", "Deposits", "Sold bike")
+        addIncomePage.fillIncomeDetails(deposit)
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(depositAmount)
+        homePage.checkBallance(deposit.amount)
     }
 
     @Test
@@ -66,7 +67,7 @@ class Transactions : BaseTest() {
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
         val upgradePage = UpgradePage(driver)
-        val savingsAmount = 1020.00
+        val savings = Transaction(1020.00, "cash", "Savings", "Savings july 2025")
 
         onboardingPage.waitForPageToLoad()
         onboardingPage.completeOnboarding()
@@ -79,10 +80,10 @@ class Transactions : BaseTest() {
         homePage.tapAddIncome()
 
         addIncomePage.waitForPageToLoad()
-        addIncomePage.fillIncomeDetails(savingsAmount, "cash", "Savings")
+        addIncomePage.fillIncomeDetails(savings)
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(savingsAmount)
+        homePage.checkBallance(savings.amount)
     }
 
     @Test
@@ -91,7 +92,7 @@ class Transactions : BaseTest() {
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
         val upgradePage = UpgradePage(driver)
-        val expenseAmount = 1020.00
+        val rent = Transaction(1020.00, "card", "Bills", "Rent july 2025")
 
         onboardingPage.waitForPageToLoad()
         onboardingPage.completeOnboarding()
@@ -104,10 +105,10 @@ class Transactions : BaseTest() {
         homePage.tapAddExpense()
 
         addExpensePage.waitForPageToLoad()
-        addExpensePage.fillExpenseDetails(expenseAmount, "card", "Bills", "Rent july 2025")
+        addExpensePage.fillExpenseDetails(rent) 
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(-expenseAmount)
+        homePage.checkBallance(-rent.amount)
     }
 
     @Test
@@ -116,7 +117,7 @@ class Transactions : BaseTest() {
         val homePage = HomePage(driver)
         val onboardingPage = OnboardingPage(driver)
         val upgradePage = UpgradePage(driver)
-        val expenseAmount = 43.75
+        val food = Transaction(48.25, "cash", "Food", "Monday groceries")
 
         onboardingPage.waitForPageToLoad()
         onboardingPage.completeOnboarding()
@@ -130,10 +131,10 @@ class Transactions : BaseTest() {
 
         addExpensePage.waitForPageToLoad()
         addExpensePage.checkSelectedCategory("Food")
-        addExpensePage.fillExpenseDetails(expenseAmount, "cash", "Food", "Monday groceries")
+        addExpensePage.fillExpenseDetails(food)
 
         homePage.waitForPageToLoad()
-        homePage.checkBallance(-expenseAmount)
+        homePage.checkBallance(-food.amount)
     }
 
 }

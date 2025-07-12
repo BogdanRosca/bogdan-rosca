@@ -1,6 +1,7 @@
 package com.monefy.mobile.pages
 
 import org.openqa.selenium.remote.RemoteWebDriver
+import com.monefy.mobile.utils.Transaction
 
 class AddExpensePage(driver: RemoteWebDriver) : AddTransactionPage(driver) {
 
@@ -10,12 +11,12 @@ class AddExpensePage(driver: RemoteWebDriver) : AddTransactionPage(driver) {
         super.waitForPageToLoad()
     }
 
-    fun fillExpenseDetails(amount: Double, paymentType: String, expenseType: String, note: String = "") {
-        enterAmountByKeyboard(amount)
-        choosePaymentType(paymentType)
-        addNote(note)
+    fun fillExpenseDetails(transaction: Transaction) {
+        enterAmountByKeyboard(transaction.amount)
+        choosePaymentType(transaction.paymentType)
+        addNote(transaction.note)
         openCategorySelection()
-        chooseExpenseType(expenseType)
+        chooseExpenseType(transaction.category)
     }
 
     fun chooseExpenseType(expenseType: String) {
