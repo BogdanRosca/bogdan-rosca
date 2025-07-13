@@ -129,6 +129,6 @@ Prerequisits:
 2. Start Appium `appium`
 3. Make sure you are in `/mobile-app-automation` folder  
 4. Build the Docker image for test automation: `docker build -t mobile-automation:latest .`
-5. Run the Docker image: `docker run --rm mobile-automation:latest`
+5. Run the Docker image: `docker run -v "$(pwd)/build:/app/build" --rm mobile-automation:latest`
 6. Build Allure report `allure generate build/allure-results --clean -o "allure-report"`
 7. Serve Allure report `allure open allure-report`
