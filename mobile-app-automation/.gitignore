@@ -16,3 +16,6 @@ Thumbs.db
 
 #vscode
 .vscode/
+
+# allure
+/allure-report

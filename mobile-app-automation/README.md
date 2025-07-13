@@ -59,3 +59,23 @@ Once the first test was running successfully, I implemented the **Page Object Mo
 For test reporting, I chose **Allure**, a solution I'm highly familiar with. It's straightforward to implement - once the plugin is added, results are automatically generated under `build/allure-results`. These results can then be used to generate comprehensive reports using the commands detailed in the next section. To further enhance the reporting experience, I've utilized Allure decorators to provide optimal structure and improve test readability and maintenance.
 
 ## How to run the tests
+### Running locally
+Used machine Macbook Pro M1 - Sequoia 15.5
+
+Prerequisits: 
+- Java v19.0.1
+- Appium v2.19.0
+- Android SDK (for Android device/emulator management)
+
+Steps: 
+1. Clone the repositoty git@github.com:BogdanRosca/bogdan-rosca.git
+2. Install Java `19 brew install openjdk@19`
+3. Install Appium `npm install -g appium@2.19.0`
+4. Run Appium `appium`
+5. Install Android SDK and set up an Android Emulator 
+6. Check your emulator name `adb devices`
+7. In `mobile-app-automation/src/main/kotlin/com/monefy/mobile/config/AppiumConfig.kt` Update the **deviceName** with above value 
+8. Run the tests `./gradlew test`
+9. Install Allure `brew install allure`
+10. Build Allure report `allure generate build/allure-results --clean -o "allure-report"`
+11. Serve Allure report `allure open allure-report`

@@ -14,7 +14,7 @@ class AppiumConfig {
             capabilities.setCapability("platformName", "Android")
             capabilities.setCapability("automationName", "UiAutomator2")
             capabilities.setCapability("deviceName", "emulator-5554")
-            capabilities.setCapability("app", "src/main/kotlin/com/monefy/mobile/apk/com.monefy.app.lite_1.18.0.apk")
+            capabilities.setCapability("app", "mobile-app-automation/src/main/kotlin/com/monefy/mobile/apk/com.monefy.app.lite_1.18.0.apk")
             capabilities.setCapability("appPackage", "com.monefy.app.lite")
             capabilities.setCapability("appActivity", "com.monefy.activities.main.MainActivity_")
             capabilities.setCapability("noReset", false)
