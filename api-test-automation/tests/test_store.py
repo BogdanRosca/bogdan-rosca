@@ -1,6 +1,6 @@
-from config.config import BASE_URLS
-from config.config import DEFAULT_HEADERS
-from utils.test_utils import create_order
+from config.config import BASE_URLS, DEFAULT_HEADERS, ORDER_ID
+from fixtures.fixtures import cleanup_order
+from utils.test_utils import create_order, compare_order_data
 import json
 import os
 import pytest
@@ -8,40 +8,20 @@ import requests
 
 
 ENVIRONMENT = os.getenv('TEST_ENV', 'dev')
-ORDER_ID = 1234567890
-order_payload = json.load(open('data/order.json'))
 
 
-@pytest.fixture(autouse=True)
-def cleanup_order():
-    """Fixture to delete the test order before each test"""
-
-    url = f"{BASE_URLS[ENVIRONMENT]}/store/order/{ORDER_ID}"
-    
-    try:
-        requests.delete(url, headers=DEFAULT_HEADERS)
-    except requests.RequestException:
-        pass
-    
-    yield
-    
-    try:
-        requests.delete(url, headers=DEFAULT_HEADERS)
-    except requests.RequestException:
-        pass
+with open('data/order.json') as f:
+    order_payload = json.load(f)
 
 
 def test_get_store_order_with_invalid_id():
-    """Test GET request to retrieve a store order"""
-    url = f"{BASE_URLS[ENVIRONMENT]}/store/order/10"
+    """Test GET request to retrieve a store order with invalid ID"""
+    url = f"{BASE_URLS[ENVIRONMENT]}/store/order/123123123"
     
-    response = requests.post(url, headers=DEFAULT_HEADERS, json=order_payload)
-
     response = requests.get(url, headers=DEFAULT_HEADERS)
     
     assert response.status_code == 404
     assert 'Order not found' in response.text 
-
 
 
 def test_get_store_order_with_valid_id():
@@ -52,13 +32,14 @@ def test_get_store_order_with_valid_id():
     create_order(order_payload)
 
     response = requests.get(url, headers=DEFAULT_HEADERS)
-    response_data = response.json()
-    
     assert response.status_code == 200
-    payload_without_date = {k: v for k, v in order_payload.items() if k != 'shipDate'}
-    response_without_date = {k: v for k, v in response_data.items() if k != 'shipDate'}
     
-    assert response_without_date == payload_without_date
+    try:
+        response_data = response.json()
+    except json.JSONDecodeError:
+        pytest.fail("Response is not valid JSON")
+    
+    assert compare_order_data(order_payload, response_data)
 
     
 def test_create_store_order():
@@ -66,20 +47,33 @@ def test_create_store_order():
     url = f"{BASE_URLS[ENVIRONMENT]}/store/order"
     
     response = requests.post(url, headers=DEFAULT_HEADERS, json=order_payload)
-    response_data = response.json()
-
     assert response.status_code == 200
-    payload_without_date = {k: v for k, v in order_payload.items() if k != 'shipDate'}
-    response_without_date = {k: v for k, v in response_data.items() if k != 'shipDate'}
     
-    assert response_without_date == payload_without_date
+    try:
+        response_data = response.json()
+    except json.JSONDecodeError:
+        pytest.fail("Response is not valid JSON")
+    
+    assert compare_order_data(order_payload, response_data)
 
 
 def test_delete_store_order():
     """Test DELETE request to delete a store order"""
     url = f"{BASE_URLS[ENVIRONMENT]}/store/order/{ORDER_ID}"
     
-    response = requests.delete(url, headers=DEFAULT_HEADERS)
+    # Create an order to delete
+    order_payload["id"] = ORDER_ID
+    create_order(order_payload)
     
-    assert response.status_code == 200
+    # Verify the order exists
+    get_response = requests.get(url, headers=DEFAULT_HEADERS)
+    assert get_response.status_code == 200
+    
+    # Delete the order
+    delete_response = requests.delete(url, headers=DEFAULT_HEADERS)
+    assert delete_response.status_code == 200
+    
+    # Verify the order was deleted
+    get_response_after_delete = requests.get(url, headers=DEFAULT_HEADERS)
+    assert get_response_after_delete.status_code == 404
    

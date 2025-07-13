@@ -17,3 +17,4 @@ ENDPOINTS = {
     'user': '/user',
 }
 
+ORDER_ID = 1234567890
