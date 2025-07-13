@@ -7,7 +7,7 @@ import java.net.URL
 class AppiumConfig {
     
     companion object {
-        const val APPIUM_SERVER_URL = "http://localhost:4723"
+        private val APPIUM_SERVER_URL = System.getenv("APPIUM_SERVER_URL") ?: "http://localhost:4723"
         
         fun getAndroidCapabilities(): DesiredCapabilities {
             val capabilities = DesiredCapabilities()

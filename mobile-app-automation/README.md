@@ -67,7 +67,7 @@ Prerequisits:
 - Appium v2.19.0
 - Android SDK (for Android device/emulator management)
 
-Setup steps: 
+**Setup steps:** 
 1. Clone the repositoty `git@github.com:BogdanRosca/bogdan-rosca.git`
 2. Install Java 21 `brew install openjdk@21`
 3. Install Android SDK and create an Android Emulator 
@@ -87,7 +87,7 @@ Setup steps:
 8. Install Android Appium driver `appium driver install uiautomator2`
 9. Install Allure `brew install allure`
 
-Test execution steps: 
+**Test execution steps:**  
 1. Make sure you are in `/mobile-app-automation` folder 
 2. Start Appium `appium`
 3. Make sure you are in `/mobile-app-automation` folder  
@@ -95,3 +95,40 @@ Test execution steps:
 5. Build Allure report `allure generate build/allure-results --clean -o "allure-report"`
 6. Serve Allure report `allure open allure-report`
 
+### Running using Docker 
+Used machine Macbook Pro M1 - Sequoia 15.5
+
+Prerequisits: 
+- Docker v4.37.2
+- Appium v2.19.0
+- Android SDK (for Android device/emulator management)
+
+
+**Setup steps:** 
+1. Clone the repositoty `git@github.com:BogdanRosca/bogdan-rosca.git`
+2. Install Android SDK and create an Android Emulator 
+3. Setup Android Studio environmental variables
+    ```
+    vi ~/.zshrc
+    paste
+        export ANDROID_HOME=$HOME/Library/Android/sdk
+        export ANDROID_SDK_ROOT=$ANDROID_HOME
+        export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+    save 
+    source ~/.zshrc
+    ```
+4. Check your emulator name `adb devices`
+5. In `mobile-app-automation/src/main/kotlin/com/monefy/mobile/config/AppiumConfig.kt` Update the **deviceName** with above value 
+6. Install Appium `npm install -g appium@2.19.0`
+7. Install Android Appium driver `appium driver install uiautomator2`
+8. Install Allure `brew install allure`
+
+
+**Test execution steps:** 
+1. Make sure you are in `/mobile-app-automation` folder 
+2. Start Appium `appium`
+3. Make sure you are in `/mobile-app-automation` folder  
+4. Build the Docker image for test automation: `docker build -t mobile-automation:latest .`
+5. Run the Docker image: `docker run --rm mobile-automation:latest`
+6. Build Allure report `allure generate build/allure-results --clean -o "allure-report"`
+7. Serve Allure report `allure open allure-report`
