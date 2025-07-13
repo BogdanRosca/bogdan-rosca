@@ -67,15 +67,31 @@ Prerequisits:
 - Appium v2.19.0
 - Android SDK (for Android device/emulator management)
 
-Steps: 
+Setup steps: 
 1. Clone the repositoty `git@github.com:BogdanRosca/bogdan-rosca.git`
 2. Install Java 21 `brew install openjdk@21`
-3. Install Appium `npm install -g appium@2.19.0`
-4. Run Appium `appium`
-5. Install Android SDK and set up an Android Emulator 
-6. Check your emulator name `adb devices`
-7. In `mobile-app-automation/src/main/kotlin/com/monefy/mobile/config/AppiumConfig.kt` Update the **deviceName** with above value 
-8. Run the tests `./gradlew test`
+3. Install Android SDK and create an Android Emulator 
+4. Setup Android Studio environmental variables
+    ```
+    vi ~/.zshrc
+    paste
+        export ANDROID_HOME=$HOME/Library/Android/sdk
+        export ANDROID_SDK_ROOT=$ANDROID_HOME
+        export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+    save 
+    source ~/.zshrc
+    ```
+5. Check your emulator name `adb devices`
+6. In `mobile-app-automation/src/main/kotlin/com/monefy/mobile/config/AppiumConfig.kt` Update the **deviceName** with above value 
+7. Install Appium `npm install -g appium@2.19.0`
+8. Install Android Appium driver `appium driver install uiautomator2`
 9. Install Allure `brew install allure`
-10. Build Allure report `allure generate build/allure-results --clean -o "allure-report"`
-11. Serve Allure report `allure open allure-report`
+
+Test execution steps: 
+1. Make sure you are in `/mobile-app-automation` folder 
+2. Start Appium `appium`
+3. Make sure you are in `/mobile-app-automation` folder  
+4. Run the tests `./gradlew test`. To run only a test use `./gradlew test --tests "com.monefy.mobile.tests.NewUserOnboarding"`
+5. Build Allure report `allure generate build/allure-results --clean -o "allure-report"`
+6. Serve Allure report `allure open allure-report`
+
