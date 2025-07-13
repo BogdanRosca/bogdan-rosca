@@ -2,26 +2,18 @@
 Configuration file for API test framework
 """
 
-# Base URLs for different environments
 BASE_URLS = {
-    'dev': 'https://api-dev.example.com',
-    'staging': 'https://api-staging.example.com',
-    'prod': 'https://api.example.com'
+    'dev': 'http://localhost:8080/api/v3'
 }
 
-# Default environment
-DEFAULT_ENV = 'dev'
-
-# API endpoints
-ENDPOINTS = {
-    'users': '/users',
-    'posts': '/posts',
-    'comments': '/comments',
-    'auth': '/auth'
-}
-
-# Request headers
 DEFAULT_HEADERS = {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
 }
+
+ENDPOINTS = {
+    'pet': '/pet',
+    'store': '/store',
+    'user': '/user',
+}
+
