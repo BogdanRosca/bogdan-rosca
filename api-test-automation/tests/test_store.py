@@ -1,6 +1,7 @@
 import pytest
 import requests
 import json
+from config.config import DEFAULT_HEADERS
 
 
 ORDER_ID = 1234567890
@@ -13,14 +14,9 @@ payload = {
     "complete": True
 }
 
-headers = {
-    'Content-Type': 'application/json'
-}
-
-
 def create_order():
     url = "http://localhost:8080/api/v3/store/order"
-    response = requests.post(url, headers=headers, json=payload)
+    response = requests.post(url, headers=DEFAULT_HEADERS, json=payload)
     response_data = response.json()
     assert response.status_code == 200
     assert response_data["id"] == ORDER_ID
@@ -33,14 +29,14 @@ def cleanup_order():
     url = f"http://localhost:8080/api/v3/store/order/{ORDER_ID}"
     
     try:
-        requests.delete(url, headers=headers)
+        requests.delete(url, headers=DEFAULT_HEADERS)
     except requests.RequestException:
         pass
     
     yield
     
     try:
-        requests.delete(url, headers=headers)
+        requests.delete(url, headers=DEFAULT_HEADERS)
     except requests.RequestException:
         pass
 
@@ -50,10 +46,10 @@ def test_get_store_order_with_invalid_id():
     url = "http://localhost:8080/api/v3/store/order/10"
     
     
-    response = requests.post(url, headers=headers, json=payload)
+    response = requests.post(url, headers=DEFAULT_HEADERS, json=payload)
     response_data = response.json()
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=DEFAULT_HEADERS)
     
     assert response.status_code == 404
     assert 'Order not found' in response.text 
@@ -63,7 +59,7 @@ def test_create_store_order():
     """Test POST request to create a store order"""
     url = "http://localhost:8080/api/v3/store/order"
     
-    response = requests.post(url, headers=headers, json=payload)
+    response = requests.post(url, headers=DEFAULT_HEADERS, json=payload)
     response_data = response.json()
 
     assert response.status_code == 200
@@ -79,7 +75,7 @@ def test_get_store_order_with_valid_id():
     
     create_order()
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=DEFAULT_HEADERS)
     response_data = response.json()
     
     assert response.status_code == 200
@@ -93,7 +89,7 @@ def test_delete_store_order():
     """Test DELETE request to delete a store order"""
     url = f"http://localhost:8080/api/v3/store/order/{ORDER_ID}"
     
-    response = requests.delete(url, headers=headers)
+    response = requests.delete(url, headers=DEFAULT_HEADERS)
     
     assert response.status_code == 200
    

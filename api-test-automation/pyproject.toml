@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "api-test-automation"
+version = "0.1.0"
+description = "API Test Automation Framework"
+authors = [{name = "Bogdan Rosca"}]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pytest>=8.0.0",
+    "requests>=2.32.0",
+    "pytest-html>=4.0.0",
+]
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["config*", "utils*", "tests*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "--disable-warnings",
+    "--html=reports/report.html",
+    "--self-contained-html",
+]
