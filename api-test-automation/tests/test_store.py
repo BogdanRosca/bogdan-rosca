@@ -60,6 +60,35 @@ class TestStoreOrders:
         assert compare_order_data(self.order_payload, response_data)
 
 
+    def test_update_existing_store_order(self):
+        """Test POST request to update an existing store order"""
+        url = f"{BASE_URLS[ENVIRONMENT]}/store/order"
+        
+        response = requests.post(url, headers=DEFAULT_HEADERS, json=self.order_payload)
+        assert response.status_code == 200
+        
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError:
+            pytest.fail("Response is not valid JSON")
+        
+        assert compare_order_data(self.order_payload, response_data)
+
+        updated_order = self.order_payload.copy()
+        updated_order["status"] = "delivered"
+        create_order(updated_order)
+        
+        response = requests.post(url, headers=DEFAULT_HEADERS, json=updated_order)
+        assert response.status_code == 200
+        
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError:
+            pytest.fail("Response is not valid JSON")
+        
+        assert compare_order_data(updated_order, response_data)
+
+
     def test_delete_store_order(self):
         """Test DELETE request to delete a store order"""
         url = f"{BASE_URLS[ENVIRONMENT]}/store/order/{ORDER_ID}"
