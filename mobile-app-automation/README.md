@@ -63,13 +63,13 @@ For test reporting, I chose **Allure**, a solution I'm highly familiar with. It'
 Used machine Macbook Pro M1 - Sequoia 15.5
 
 Prerequisits: 
-- Java v19.0.1
+- Java v21.0.7
 - Appium v2.19.0
 - Android SDK (for Android device/emulator management)
 
 Steps: 
-1. Clone the repositoty git@github.com:BogdanRosca/bogdan-rosca.git
-2. Install Java `19 brew install openjdk@19`
+1. Clone the repositoty `git@github.com:BogdanRosca/bogdan-rosca.git`
+2. Install Java 21 `brew install openjdk@21`
 3. Install Appium `npm install -g appium@2.19.0`
 4. Run Appium `appium`
 5. Install Android SDK and set up an Android Emulator 

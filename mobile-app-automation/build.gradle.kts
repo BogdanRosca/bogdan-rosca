@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.22"
     id("java")
     id("io.qameta.allure") version "2.12.0"
 }
@@ -36,10 +36,10 @@ tasks.test {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_19
-    targetCompatibility = JavaVersion.VERSION_19
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 kotlin {
-    jvmToolchain(19)
+    jvmToolchain(21)
 } 
