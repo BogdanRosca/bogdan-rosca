@@ -17,6 +17,15 @@ def create_order(order_payload):
     assert response_data["id"] == order_payload["id"]
 
 
+def delete_order(order_id):
+    """Helper function to create an order with the provided payload"""
+    url = f"{BASE_URLS[ENVIRONMENT]}/store/order/{order_id}"
+
+    response = requests.delete(url, headers=DEFAULT_HEADERS)
+    
+    assert response.status_code == 200
+
+
 def compare_order_data(expected, actual):
     """Helper function to compare order data excluding shipDate field"""
     expected_without_date = {k: v for k, v in expected.items() if k != 'shipDate'}
