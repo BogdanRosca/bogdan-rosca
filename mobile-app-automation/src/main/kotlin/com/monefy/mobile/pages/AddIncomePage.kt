@@ -22,7 +22,7 @@ class AddIncomePage(driver: RemoteWebDriver) : AddTransactionPage(driver) {
         if (!validIncomeTypes.contains(incomeType)) {
             throw RuntimeException("Invalid incomeType: '$incomeType'. Valid types are: ${validIncomeTypes.joinToString(", ")}")
         }
-        selenium.waitAndClickByTextContains(incomeType)
+        selenium.clickByTextContains(incomeType)
     }
 
 }

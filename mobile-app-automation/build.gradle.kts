@@ -18,6 +18,9 @@ dependencies {
     // Appium - for mobile automation
     implementation("io.appium:java-client:8.5.1")
     
+    // Selenium - for WebDriverWait and ExpectedConditions (compatible with Appium 8.5.1)
+    implementation("org.seleniumhq.selenium:selenium-support:4.9.1")
+    
     // TestNG - for test execution
     testImplementation("org.testng:testng:7.7.1")
     

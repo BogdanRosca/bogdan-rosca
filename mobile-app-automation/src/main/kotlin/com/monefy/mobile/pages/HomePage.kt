@@ -17,29 +17,29 @@ class HomePage(driver: RemoteWebDriver) : BasePage(driver) {
     private val topbBarId = "com.monefy.app.lite:id/toolbar_layout"
     
     override fun waitForPageToLoad() {
-        selenium.waitForElementVisibilityById(topbBarId, "Home screen is not visible")
+        selenium.waitForElementVisibilityById(topbBarId)
     }
 
     fun checkBallance(balance: Double) {
         var balanceString = StringUtils.formatBalance(balance)
-        selenium.waitForTextById(balanceTextId, balanceString, "Balance value is wrong. Expected $balance, but got $balanceString")
+        selenium.waitForTextById(balanceTextId, balanceString)
     }
 
     fun tapAddIncome() {
-        selenium.waitAndClickById(addIncomeButtonId)
+        selenium.clickById(addIncomeButtonId)
     }
 
     fun tapAddExpense() {
-        selenium.waitAndClickById(addExpenseButtonId)
+        selenium.clickById(addExpenseButtonId)
     }
 
     fun tapFoodCategoryButton() {
         val elementXpath = "//*[@resource-id='$piechartId']//$foodButtonClass[1]"
-        selenium.waitAndClickByXpath(elementXpath)
+        selenium.clickByXpath(elementXpath)
     }
 
     fun openBalancePage() {
-        selenium.waitAndClickById(balanceTextId)
+        selenium.clickById(balanceTextId)
     }
 
     fun clearToastMessage() {
