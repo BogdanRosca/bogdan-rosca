@@ -1,0 +1,58 @@
+name: Run API tests
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+        
+    - name: Install Maven
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y maven
+
+    - name: Checkout Swagger Petstore API
+      run: |
+        git clone https://github.com/swagger-api/swagger-petstore.git petstore-api
+        
+    - name: Build and start Petstore API
+      run: |
+        cd petstore-api
+        mvn clean package -DskipTests
+        nohup mvn jetty:run > ../api.log 2>&1 &
+        echo "Waiting for API to start..."
+        sleep 30
+        
+    - name: Verify API is running
+      run: |
+        curl -f http://localhost:8080/api/v3/pet/findByStatus?status=available || exit 1
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run API tests
+      run: |
+        cd api-test-automation
+        pytest 
+        
