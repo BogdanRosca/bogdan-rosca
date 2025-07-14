@@ -1,7 +1,7 @@
 services:
   petstore-api:
     build:
-      context: ./swagger-petstore
+      context: ./petstore-api
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
