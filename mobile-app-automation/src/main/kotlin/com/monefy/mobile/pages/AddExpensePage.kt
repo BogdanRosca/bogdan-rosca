@@ -28,12 +28,12 @@ class AddExpensePage(driver: RemoteWebDriver) : AddTransactionPage(driver) {
         if (!validExpenseTypes.contains(expenseType)) {
             throw RuntimeException("Invalid expenseType: '$expenseType'. Valid types are: ${validExpenseTypes.joinToString(", ")}")
         }
-        selenium.waitAndClickByTextContains(expenseType)
+        selenium.clickByTextContains(expenseType)
     }
 
     fun checkSelectedCategory(category: String) {
         val expectedText = "ADD '" + category.uppercase() + "'"    
-        selenium.waitForTextById(addExpenseButtonId, expectedText, "Category $category is not selected")
+        selenium.waitForTextById(addExpenseButtonId, expectedText)
     }
 
 } 

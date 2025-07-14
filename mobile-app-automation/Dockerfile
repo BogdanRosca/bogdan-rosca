@@ -16,7 +16,4 @@ COPY src/ src/
 
 RUN ./gradlew assemble
 
-RUN mkdir -p /app/build
-VOLUME ["/app/build"]
-
-CMD ["./gradlew", "test", "info"]
+CMD ["./gradlew", "test", "--info"]

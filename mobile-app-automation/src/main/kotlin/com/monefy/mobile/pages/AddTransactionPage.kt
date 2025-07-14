@@ -14,7 +14,7 @@ abstract class AddTransactionPage(driver: RemoteWebDriver) : BasePage(driver) {
    
 
     override fun waitForPageToLoad() {
-        selenium.waitForElementVisibilityById(topbBarId, "Transaction screen is not visible")
+        selenium.waitForElementVisibilityById(topbBarId)
     }
 
     protected fun enterAmountByKeyboard(amount: Double) {
@@ -24,12 +24,12 @@ abstract class AddTransactionPage(driver: RemoteWebDriver) : BasePage(driver) {
         println("Entering amount: $amount")
         for (char in String.format("%.2f", amount)) {
             if (char == '.') {
-                selenium.waitAndClickById(keyBoardDotButtonId)
+                selenium.clickById(keyBoardDotButtonId)
             }
             else {
                 if (char.isDigit()) {
                     val numberToPressId = keyBoardNumberButtonId + char
-                    selenium.waitAndClickById(numberToPressId)
+                    selenium.clickById(numberToPressId)
                 }
             }
         }
@@ -37,8 +37,8 @@ abstract class AddTransactionPage(driver: RemoteWebDriver) : BasePage(driver) {
 
     protected fun choosePaymentType(paymentType: String) {
         if (paymentType == "card") {
-            selenium.waitAndClickById(cashOrCardButtonId)
-            selenium.waitAndClickByTextContains("Payment card")
+            selenium.clickById(cashOrCardButtonId)
+            selenium.clickByTextContains("Payment card")
         } else if (paymentType != "cash") {
             throw RuntimeException("Invalid incomeType selected")
         }
@@ -46,11 +46,11 @@ abstract class AddTransactionPage(driver: RemoteWebDriver) : BasePage(driver) {
 
     protected fun addNote(note: String) {
         if (note.isNotEmpty()) {
-            selenium.waitAndTypeById(noteButtonId, note)
+            selenium.typeById(noteButtonId, note)
         }
     }
 
     protected fun openCategorySelection() {
-        selenium.waitAndClickById(chooseChategoryButtonId)
+        selenium.clickById(chooseChategoryButtonId)
     }
 }

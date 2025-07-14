@@ -10,21 +10,21 @@ class OnboardingPage(driver: RemoteWebDriver) : BasePage(driver) {
     private val thirdScreenButtonText = "READY"
     
     override fun waitForPageToLoad() {
-        selenium.waitForTextById(continueButtonId, firstScreenButtonText, "Onboarding page not loaded")
+        selenium.waitForTextById(continueButtonId, firstScreenButtonText)
     }
     
     fun completeFirstScreen() {
-        selenium.waitAndClickById(continueButtonId)
+        selenium.clickById(continueButtonId)
     }
     
     fun completeSecondScreen() {
-        selenium.waitForTextById(continueButtonId, secondScreenButtonText, "Second onboarding screen not displayed")
-        selenium.waitAndClickById(continueButtonId)
+        selenium.waitForTextById(continueButtonId, secondScreenButtonText)
+        selenium.clickById(continueButtonId)
     }
     
     fun completeThirdScreen() {
-        selenium.waitForTextById(continueButtonId, thirdScreenButtonText, "Third onboarding screen not displayed")
-        selenium.waitAndClickById(continueButtonId)
+        selenium.waitForTextById(continueButtonId, thirdScreenButtonText)
+        selenium.clickById(continueButtonId)
     }
     
     fun completeOnboarding() {

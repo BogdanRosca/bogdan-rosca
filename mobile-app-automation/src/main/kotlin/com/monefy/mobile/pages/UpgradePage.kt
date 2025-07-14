@@ -8,11 +8,11 @@ class UpgradePage(driver: RemoteWebDriver) : BasePage(driver) {
     private val giftToYourselfId = "com.monefy.app.lite:id/textViewPrice"
     
     override fun waitForPageToLoad() {
-        selenium.waitForElementVisibilityById(giftToYourselfId, "Upgrade screen not displayed")       
+        selenium.waitForElementVisibilityById(giftToYourselfId)       
     }
     
     fun closeUpgradeScreen() {
-            selenium.waitAndClickById(closeButtonId)
+            selenium.clickById(closeButtonId)
     }
 
 } 
