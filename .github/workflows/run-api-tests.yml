@@ -37,25 +37,10 @@ jobs:
         nohup mvn jetty:run > jetty.log 2>&1 &
         echo "Jetty server started in background"
         sleep 10
-        echo "Checking jetty.log for any errors:"
-        cat jetty.log || echo "No log file yet"
 
     - name: Check if API is running
-      run: |
-        for i in {1..5}; do
-          echo "Attempt $i of 5: Checking if API is running..."
-          if curl -f http://localhost:8080/api/v3/store/inventory; then
-            echo "API is running successfully!"
-            break
-          else
-            echo "API not ready yet, attempt $i failed"
-            if [ $i -lt 5 ]; then
-              echo "Waiting 30 seconds before next attempt..."
-              sleep 30
-            else
-              echo "All 5 attempts failed. API is not running."
-              exit 1
-            fi
-          fi
-        done
+      uses: ./.github/actions/check-api-is-running
+      with:
+        url: http://localhost:8080/api/v3/store/inventory
+    
         

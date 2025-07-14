@@ -1,0 +1,37 @@
+name: 'Check if API is running'
+
+inputs:
+  url:
+    description: 'URL to check if API is running'
+    required: true
+  max-attempts:
+    description: 'Maximum number of attempts to check the API'
+    required: false
+    default: '5'
+  wait-seconds:
+    description: 'Seconds to wait between attempts'
+    required: false
+    default: '30'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check if API is running
+      shell: bash
+      run: |
+        for i in $(seq 1 ${{ inputs.max-attempts }}); do
+          echo "Attempt $i of ${{ inputs.max-attempts }}: Checking if API is running..."
+          if curl -f "${{ inputs.url }}"; then
+            echo "API is running successfully!"
+            break
+          else
+            echo "API not ready yet, attempt $i failed"
+            if [ $i -lt ${{ inputs.max-attempts }} ]; then
+              echo "Waiting ${{ inputs.wait-seconds }} seconds before next attempt..."
+              sleep ${{ inputs.wait-seconds }}
+            else
+              echo "All ${{ inputs.max-attempts }} attempts failed. API is not running."
+              exit 1
+            fi
+          fi
+        done 
