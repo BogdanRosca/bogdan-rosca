@@ -31,7 +31,7 @@ jobs:
     - name: Build and start Petstore API
       run: |
         cd petstore-api
-        mvn mvn package jetty:run
+        mvn package jetty:run
         sleep 30
         curl -f http://localhost:8080/api/v3/store/inventory
         
