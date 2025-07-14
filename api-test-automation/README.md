@@ -8,7 +8,7 @@ For this project I decided to go with my main programming language, **Python**. 
 
 
 ## Project Structure
-To maintain a clean and scalable solution, I implemented a clear separation between tests and their dependencies. This architecture follows industry best practices for test automation frameworks and ensures maintainability, and scalability through architecture principles like: separation of concerns, modular design, environments and configuration management. 
+To maintain a clean and scalable solution, I implemented a clear separation between tests and their dependencies. This architecture follows industry best practices for test automation frameworks and ensures maintainability, and scalability through architecture principles like: separation of concerns, modular design, environments and configuration management. Tests are organised following a three steps structure (data preparation, request, assertions) and where relevant the `@pytest.mark.parametrize` decorator was used for testing combinations. 
 
 ```
 api-test-automation/
