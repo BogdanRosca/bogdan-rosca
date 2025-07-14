@@ -1,0 +1,3 @@
+[submodule "api-test-automation/petstore-api"]
+	path = api-test-automation/petstore-api
+	url = https://github.com/swagger-api/swagger-petstore

@@ -1,0 +1,10 @@
+__pycache__/
+.DS_Store
+.env
+.idea/
+.pytest_cache/
+.pytest_cache/
+.vscode/
+*.egg
+*.egg-info/
+reports/
