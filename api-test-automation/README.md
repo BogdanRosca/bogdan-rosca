@@ -95,7 +95,7 @@ Prerequisits:
 ### Running using Github Actions
 Used machine Macbook Pro M1 - Sequoia 15.5
 
-As I enjoyed a lot this task, I went the extra mile and added also a CI workflow for the API tests. It basically clones the API service, starts it, and runs the tests against it. The workflow is configured to run automatically against PRs (when they are opened or on each new commit) and will post a message with the summary and a link to download the html report. Workflow has a dispatch trigger, meaning it can be also launched manually but will skip the PR update stes. 
+As I enjoyed a lot this task, I went the extra mile and added also a CI workflow for the API tests. It basically clones the API service, starts it, and runs the tests against it. The workflow is configured to run automatically against PRs (when they are opened or on each new commit) and will post a message with the [PR summary](https://github.com/BogdanRosca/bogdan-rosca/pull/6#issuecomment-3070107012) and a link to download the html report. Workflow has a dispatch trigger, meaning it can be also launched manually but will skip the PR update stes. 
 
 **Test execution steps:**  
 1. Make sure the API service is stoped (otherwise it will block port 8080)
