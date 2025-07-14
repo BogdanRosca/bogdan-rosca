@@ -61,8 +61,10 @@ Prerequisits:
 6. [Optional] If you don't have Maven installed it is require you run `brew install maven`
 
 **Test execution steps:**  
-1. Start the API service. At the root of **swagger-petstore.git** do `mvn package jetty:run`
-2. Run tests. Go to root of **bogdan-rosca.git** and run `pytest`
+1. Make sure you are in `/api-test-automation/` folder     
+2. Start the API service.`cd petstore-api && mvn package jetty:run`
+3. Make sure you are in `/api-test-automation/` folder     
+4. Run tests `pytest`
 
 ### Running using Docker 
 Used machine Macbook Pro M1 - Sequoia 15.5
@@ -95,5 +97,6 @@ With every test execution a test report is generated in form of an `html` file a
 
 
 ## Findings
-- `store/order/<id>` DELETE method can be called even on unexisting objects 
+- `store/order/<id>` POST method accepts requests without a body
 - `store/order/<id>` POST method does not respect the provided `shipDate` value
+- `store/order/<id>` DELETE method can be called even on unexisting objects 
