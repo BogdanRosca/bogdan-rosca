@@ -97,6 +97,6 @@ With every test execution a test report is generated in form of an `html` file a
 
 
 ## Findings
-- `store/order/<id>` POST method accepts requests without a body
-- `store/order/<id>` POST method does not respect the provided `shipDate` value
+- `store/order` POST method accepts requests without a `quantity`
+- `store/order` POST method does not respect the provided `shipDate` value
 - `store/order/<id>` DELETE method can be called even on unexisting objects 
