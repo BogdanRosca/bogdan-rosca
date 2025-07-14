@@ -92,6 +92,16 @@ Prerequisits:
 3. Run docker compose command `docker-compose up --build`
  
 
+### Running using Github Actions
+Used machine Macbook Pro M1 - Sequoia 15.5
+
+As I enjoyed a lot this task, I went the extra mile and added also a CI workflow for the API tests. It basically clones the API service, starts it, and runs the tests against it. The workflow is configured to run automatically against PRs (when they are opened or on each new commit) and will post a message with the summary and a link to download the html report. Workflow has a dispatch trigger, meaning it can be also launched manually but will skip the PR update stes. 
+
+**Test execution steps:**  
+1. Make sure the API service is stoped (otherwise it will block port 8080)
+2. Make sure you are in `/api-test-automation/` folder       
+3. Run docker compose command `docker-compose up --build`
+
 ## Test report
 With every test execution a test report is generated in form of an `html` file at `api-test-automation/reports`. It contains information about environment, the executed summary and duration.
 
