@@ -1,8 +1,6 @@
 on:
   pull_request:
     branches: [ main ]
-  push:
-    branches: [ 03-add-ci-workflow ]
   workflow_dispatch:
 
 jobs:
