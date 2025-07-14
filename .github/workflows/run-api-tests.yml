@@ -25,8 +25,8 @@ jobs:
         sudo apt-get install -y maven
   
     - name: Checkout Swagger Petstore API
-        run: |
-          git clone https://github.com/swagger-api/swagger-petstore.git petstore-api
+      run: |
+        git clone https://github.com/swagger-api/swagger-petstore.git petstore-api
     
     - name: Build and start Petstore API
       run: |
